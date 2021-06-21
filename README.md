@@ -27,8 +27,8 @@ Platforms to run the software
 -	Unity Hub 
 -	GitHub
 
-Limitations and Bugs 
-- 
+Limitations and bugs
+
 
 Credits
 
