@@ -28,6 +28,9 @@ Platforms to run the software
 -	GitHub
 
 Limitations and bugs
+- Naming conventions were wrong "rotatingspeed is suppose to be rotationspeed " 
+- Extra brackets were added in at a portion of the code 
+- Unreacable code when return false 
 
 
 Credits
