@@ -15,7 +15,8 @@ Existing Features
 
 
 Technologies Used
-
+- Visual Studios Code 
+-	GitHub
 
 
 Testing
@@ -25,7 +26,6 @@ Testing was done......
 
 Platforms to run the software 
 -	Unity Hub 
--	GitHub
 
 Limitations and bugs
 - Naming conventions were wrong "rotatingspeed is suppose to be rotationspeed " 
