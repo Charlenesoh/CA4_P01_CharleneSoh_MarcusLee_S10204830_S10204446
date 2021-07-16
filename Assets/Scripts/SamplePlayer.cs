@@ -24,11 +24,15 @@ public class SamplePlayer : MonoBehaviour
     [SerializeField]
     private float rotationSpeed;
 
+    [SerializeField]
+    private float interactionDistance;
+
     /// <summary>
     /// The camera attached to the player model.
     /// Should be dragged in from Inspector.
     /// </summary>
-    public Camera playerCamera;
+    [SerializeField]
+    private Camera playerCamera;
 
     private string currentState;
 
@@ -43,12 +47,33 @@ public class SamplePlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(nextState != currentState)
+        if (nextState != currentState)
         {
             SwitchState();
         }
 
         CheckRotation();
+        InteractionRaycast();
+    }
+
+    private void InteractionRaycast()
+    {
+        Debug.DrawLine(playerCamera.transform.position,
+                    playerCamera.transform.position + playerCamera.transform.forward * interactionDistance);
+
+        int layermask = 1 << LayerMask.NameToLayer("Interactable");
+
+        RaycastHit hitinfo;
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward,
+            out hitinfo, interactionDistance, layermask))
+        {
+            // if my ray hits something, if statement is true
+            // do stuff here
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                hitinfo.transform.GetComponent<InteractableObject>().Interact();
+            }
+        }
     }
 
     /// <summary>
@@ -67,15 +92,7 @@ public class SamplePlayer : MonoBehaviour
     {
         while(currentState == "Idle")
         {
-            if(Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") != 0)
-            {
-                nextState = "Moving";
-            }
-            if (Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") == 0)
-            {
-                nextState = "Moving";
-            }
-            if (Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") != 0)
+            if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 nextState = "Moving";
             }
@@ -119,7 +136,7 @@ public class SamplePlayer : MonoBehaviour
         Vector3 xMovement = transform.right * Input.GetAxis("Horizontal");
         Vector3 zMovement = transform.forward * Input.GetAxis("Vertical");
 
-        Vector3 movementVector = zMovement + xMovement;
+        Vector3 movementVector = xMovement + zMovement;
 
         if(movementVector.sqrMagnitude > 0)
         {
@@ -127,12 +144,22 @@ public class SamplePlayer : MonoBehaviour
             newPos += movementVector;
 
             transform.position = newPos;
-            return false;
+            return true;
         }
         else
         {
-            return true;
+            return false;
         }
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        CollisionFunction(collision);
+    }
+
+    protected virtual void CollisionFunction(Collision collision)
+    {
+        Debug.Log("hi");
     }
 }
