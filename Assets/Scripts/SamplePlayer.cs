@@ -19,10 +19,10 @@ public class SamplePlayer : MonoBehaviour
     /// The distance this player will travel per second.
     /// </summary>
     [SerializeField]
-    private float moveSpeed;
+    public float moveSpeed;
 
     [SerializeField]
-    private float rotationSpeed;
+    public float rotationSpeed;
 
     [SerializeField]
     private float interactionDistance;
@@ -38,10 +38,19 @@ public class SamplePlayer : MonoBehaviour
 
     private string nextState;
 
+
+    public GameObject quest;
+    public GameObject ui;
+
+    public GameObject photo2;
+    public GameObject photo3;
+    public GameObject box;
+
     // Start is called before the first frame update
     void Start()
     {
         nextState = "Idle";
+        rotationSpeed = 60;
     }
 
     // Update is called once per frame
@@ -54,8 +63,15 @@ public class SamplePlayer : MonoBehaviour
 
         CheckRotation();
         InteractionRaycast();
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            quest.SetActive(true);
+        }
+        else
+        {
+            quest.SetActive(false);
+        }
     }
-
     private void InteractionRaycast()
     {
         Debug.DrawLine(playerCamera.transform.position,
@@ -72,6 +88,37 @@ public class SamplePlayer : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 hitinfo.transform.GetComponent<InteractableObject>().Interact();
+                if (hitinfo.collider.tag == "Photo")
+                {
+                    rotationSpeed = 0;
+                    moveSpeed = 0;
+                    ui.SetActive(true);
+                    GetComponent<Dialogue>().PhotoText1();
+                    photo2.SetActive(true);
+                }
+                if (hitinfo.collider.tag == "Photo2") 
+                {
+                    moveSpeed = 0;
+                    rotationSpeed = 0;
+                    ui.SetActive(true);
+                    GetComponent<Dialogue>().PhotoText1();
+                    photo3.SetActive(true);
+                }
+                if (hitinfo.collider.tag == "Photo3") 
+                {
+                    moveSpeed = 0;
+                    rotationSpeed = 0;
+                    ui.SetActive(true);
+                    GetComponent<Dialogue>().PhotoText1();
+                    box.SetActive(true);
+                }
+                if (hitinfo.collider.tag == "box")
+                {
+                    moveSpeed = 0;
+                    rotationSpeed = 0;
+                    ui.SetActive(true);
+                    GetComponent<Dialogue>().BoxText();
+                }
             }
         }
     }
