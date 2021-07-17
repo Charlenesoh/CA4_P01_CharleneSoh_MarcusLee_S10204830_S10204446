@@ -41,10 +41,14 @@ public class SamplePlayer : MonoBehaviour
 
     public GameObject quest;
     public GameObject ui;
+    public GameObject option;
+    public GameObject map;
+    public GameObject menu;
 
     public GameObject photo2;
     public GameObject photo3;
     public GameObject box;
+    public GameObject boy;
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +67,9 @@ public class SamplePlayer : MonoBehaviour
 
         CheckRotation();
         InteractionRaycast();
+        ShowMap();
+        ShowMenu();
+
         if (Input.GetKey(KeyCode.Tab))
         {
             quest.SetActive(true);
@@ -83,6 +90,7 @@ public class SamplePlayer : MonoBehaviour
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward,
             out hitinfo, interactionDistance, layermask))
         {
+            option.SetActive(true);
             // if my ray hits something, if statement is true
             // do stuff here
             if (Input.GetKeyDown(KeyCode.E))
@@ -118,10 +126,54 @@ public class SamplePlayer : MonoBehaviour
                     rotationSpeed = 0;
                     ui.SetActive(true);
                     GetComponent<Dialogue>().BoxText();
+                    boy.SetActive(true);
+                }
+                if (hitinfo.collider.tag == "SmallBoy")
+                {
+                    moveSpeed = 0;
+                    rotationSpeed = 0;
+                    ui.SetActive(true);
+                    GetComponent<Dialogue>().BoyText();
                 }
             }
         }
+        else
+        {
+            option.SetActive(false);
+        }
     }
+
+    private void ShowMap()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if (map.activeSelf)
+            {
+                map.SetActive(false);
+            }
+            else
+            {
+                map.SetActive(true);
+            }
+        }
+    }
+    private void ShowMenu()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (menu.activeSelf)
+            {
+                menu.SetActive(false);
+                rotationSpeed = 60;
+            }
+            else
+            {
+                rotationSpeed = 0;
+                menu.SetActive(true);
+            }
+        }
+    }
+
 
     /// <summary>
     /// Sets the current state of the player

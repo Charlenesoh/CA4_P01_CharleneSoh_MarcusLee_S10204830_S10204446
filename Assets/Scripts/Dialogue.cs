@@ -15,28 +15,52 @@ public class Dialogue : MonoBehaviour
 
     public GameObject player;
 
+    public GameObject street;
+    public GameObject alley;
+    public GameObject house;
+
     public int textLine;
+    public int questLine;
+
     public string[] photoText1;
     public string[] photoText2;
     public string[] photoText3;
     public string[] boxText;
+    public string[] boyText;
+    public string[] album;
+    public string[] toy;
+    public string[] boy;
+
+
+    public string[] quest;
 
     public int photoCounter;
+    public int boxCounter;
+    public int boyCounter;
 
     public void Start()
     {
         photoCounter = 0;
+        boxCounter = 0;
+        boyCounter = 0;
         textLine = 0;
+        questLine = 0;
         nameBox.text = "Me";
     }
 
     void Update()
     {
+        Quest();
         PhotoText1();
         if (photoCounter == 3)
         {
             BoxText();
         }
+        if (boxCounter == 1)
+        {
+            BoyText();
+        }
+        
     }
 
     public void LineCounter()
@@ -79,6 +103,7 @@ public class Dialogue : MonoBehaviour
                 photoCounter = photoCounter + 1;
                 player.GetComponent<SamplePlayer>().rotationSpeed = 60;
                 player.GetComponent<SamplePlayer>().moveSpeed = 5;
+                street.SetActive(true);
             }
         }
     }
@@ -90,12 +115,57 @@ public class Dialogue : MonoBehaviour
         {
             nameBox.text = "(Unknown)";
         }
+        else
+        {
+            nameBox.text = "Me";
+        }
         if (textLine == 7)
         {
             ui.SetActive(false);
             textLine = 0;
+            boxCounter = boxCounter + 1;
             player.GetComponent<SamplePlayer>().rotationSpeed = 60;
             player.GetComponent<SamplePlayer>().moveSpeed = 5;
+            questLine = questLine + 1;
         }
+    }
+    public void BoyText()
+    {
+        questBox.text = boyText[textLine];
+        if (textLine == 3)
+        {
+            nameBox.text = "Small Boy";
+        }
+        else
+        {
+            nameBox.text = "Me";
+        }
+        if (textLine == 8)
+        {
+            ui.SetActive(false);
+            textLine = 0;
+            boyCounter = boyCounter + 1;
+            player.GetComponent<SamplePlayer>().rotationSpeed = 60;
+            player.GetComponent<SamplePlayer>().moveSpeed = 5;
+            questLine = questLine + 1;
+            alley.SetActive(true);
+        }
+    }
+
+    public void Quest()
+    {
+        if (boxCounter >= 1)
+        {
+            questlist.text = quest[questLine];
+        }
+        if (photoCounter >= 3)
+        {
+            questlist.text = quest[questLine+1];
+        }
+        else
+        {
+            questlist.text = quest[questLine] + photoCounter + "/3";
+        }
+        
     }
 }
