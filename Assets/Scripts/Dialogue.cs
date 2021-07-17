@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Dialogue : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class Dialogue : MonoBehaviour
     public GameObject alley;
     public GameObject house;
 
+    public Transform teleportTarget;
+    public GameObject thePlayer;
+
     public int textLine;
     public int questLine;
 
@@ -28,7 +32,6 @@ public class Dialogue : MonoBehaviour
     public string[] boxText;
     public string[] boyText;
     public string[] album;
-    public string[] toy;
     public string[] boy;
 
 
@@ -37,12 +40,14 @@ public class Dialogue : MonoBehaviour
     public int photoCounter;
     public int boxCounter;
     public int boyCounter;
+    public int albumCounter;
 
     public void Start()
     {
         photoCounter = 0;
         boxCounter = 0;
-        boyCounter = 0;
+        boyCounter = 1;
+        albumCounter = 0;
         textLine = 0;
         questLine = 0;
         nameBox.text = "Me";
@@ -52,13 +57,26 @@ public class Dialogue : MonoBehaviour
     {
         Quest();
         PhotoText1();
+
+
         if (photoCounter == 3)
         {
             BoxText();
         }
+
+
         if (boxCounter == 1)
         {
             BoyText();
+        }
+
+        if (boxCounter == 2)
+        {
+            AlbumText();
+        }
+        if(albumCounter == 1)
+        {
+            SecBoyText();
         }
         
     }
@@ -140,6 +158,10 @@ public class Dialogue : MonoBehaviour
         {
             nameBox.text = "Me";
         }
+        if(textLine == 4)
+        {
+            thePlayer.transform.position = teleportTarget.transform.position;
+        }
         if (textLine == 8)
         {
             ui.SetActive(false);
@@ -149,6 +171,31 @@ public class Dialogue : MonoBehaviour
             player.GetComponent<SamplePlayer>().moveSpeed = 5;
             questLine = questLine + 1;
             alley.SetActive(true);
+        }
+    }    
+    public void AlbumText()
+    {
+        questBox.text = album[textLine];
+        if (textLine == 4)
+        {
+            ui.SetActive(false);
+            textLine = 0;
+            albumCounter = albumCounter + 1;
+            player.GetComponent<SamplePlayer>().rotationSpeed = 60;
+            player.GetComponent<SamplePlayer>().moveSpeed = 5;
+            questLine = questLine + 1;
+            house.SetActive(true);
+        }
+    }
+    public void SecBoyText()
+    {
+        questBox.text = boy[textLine];
+        if (textLine == 4)
+        {
+            SceneManager.LoadScene("Main Menu");
+            textLine = 0;
+            player.GetComponent<SamplePlayer>().rotationSpeed = 60;
+            player.GetComponent<SamplePlayer>().moveSpeed = 5;
         }
     }
 

@@ -49,6 +49,8 @@ public class SamplePlayer : MonoBehaviour
     public GameObject photo3;
     public GameObject box;
     public GameObject boy;
+    public GameObject album;
+    public GameObject secboy;
 
     // Start is called before the first frame update
     void Start()
@@ -134,6 +136,22 @@ public class SamplePlayer : MonoBehaviour
                     rotationSpeed = 0;
                     ui.SetActive(true);
                     GetComponent<Dialogue>().BoyText();
+                    album.SetActive(true);
+                }
+                if (hitinfo.collider.tag == "Album")
+                {
+                    moveSpeed = 0;
+                    rotationSpeed = 0;
+                    ui.SetActive(true);
+                    GetComponent<Dialogue>().AlbumText();
+                    secboy.SetActive(true);
+                }
+                if (hitinfo.collider.tag == "secboy")
+                {
+                    moveSpeed = 0;
+                    rotationSpeed = 0;
+                    ui.SetActive(true);
+                    GetComponent<Dialogue>().SecBoyText();
                 }
             }
         }

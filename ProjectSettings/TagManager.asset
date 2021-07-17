@@ -10,6 +10,10 @@ TagManager:
   - box
   - Quest
   - SmallBoy
+  - Album
+  - alley
+  - Street
+  - secboy
   layers:
   - Default
   - TransparentFX
