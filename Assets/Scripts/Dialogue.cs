@@ -86,6 +86,10 @@ public class Dialogue : MonoBehaviour
     public void BoxText()
     {
         questBox.text = boxText[textLine];
+        if(textLine == 5)
+        {
+            nameBox.text = "(Unknown)";
+        }
         if (textLine == 7)
         {
             ui.SetActive(false);
